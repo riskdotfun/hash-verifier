@@ -1,0 +1,48 @@
+{
+  "name": "@riskdotfun/hash-verifier",
+  "version": "1.0.0",
+  "description": "Professional cryptographic verification tool for validating provably fair Risk.fun game outcomes using Keccak256 hashing",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server.js",
+    "serve": "node server.js",
+    "dev": "node server.js",
+    "build": "echo \"This is a static HTML application - no build required\""
+  },
+  "keywords": [
+    "provably-fair",
+    "cryptographic-verification", 
+    "keccak256",
+    "hash-verification",
+    "gambling-verification",
+    "blockchain-gaming",
+    "solana",
+    "transparency",
+    "game-integrity",
+    "mathematical-proof"
+  ],
+  "author": "Ferno Labs",
+  "homepage": "https://risk.fun",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/riskdotfun/hash-verifier.git"
+  },
+  "bugs": {
+    "url": "https://github.com/riskdotfun/hash-verifier/issues"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "js-sha3": "^0.9.3"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

@@ -1,0 +1,498 @@
+/* Import Jersey 10 font for titles */
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&display=swap');
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'IBM Plex Mono', monospace;
+    background: #0d110e;
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #111412;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 10px 15px -3px rgba(18, 18, 23, 0.08), 0px 4px 6px -2px rgba(18, 18, 23, 0.05);
+}
+
+/* Header */
+.header {
+    padding: 40px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, #111412 0%, #171a18 100%);
+}
+
+.title {
+    font-family: 'Jersey 10', cursive;
+    font-size: 48px;
+    font-weight: normal;
+    color: white;
+    letter-spacing: 0.2px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #8f9f97;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.verification-status {
+    margin: 16px 0;
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.status-checking {
+    color: #8f9f97;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-valid {
+    color: #58ef50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.status-invalid {
+    color: #fd5050;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Main Content */
+.main-content {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 32px;
+    padding: 32px;
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+/* Cards */
+.card {
+    background: #171a18;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card h3 {
+    font-family: 'Jersey 10', cursive;
+    font-size: 18px;
+    color: white;
+    letter-spacing: 0.2px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.card-header h3 {
+    margin-bottom: 0;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: #0d110e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    transition: border-color 0.2s ease;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #58ef50;
+    box-shadow: 0 0 0 2px rgba(88, 239, 80, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Buttons */
+.verify-button {
+    width: 100%;
+    background: #58ef50;
+    color: #0d100e;
+    border: none;
+    padding: 16px 24px;
+    border-radius: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.verify-button:hover {
+    background: #6fff47;
+    transform: translateY(-1px);
+}
+
+.verify-button:active {
+    transform: translateY(0);
+}
+
+.verify-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.copy-button {
+    background: #58ef50;
+    color: #0d100e;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+    background: #6fff47;
+}
+
+/* Instructions */
+.instructions ol {
+    padding-left: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+}
+
+.instructions strong {
+    color: #58ef50;
+}
+
+/* Links */
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.link {
+    color: #58ef50;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.link:hover {
+    color: #6fff47;
+}
+
+/* Game Visual */
+.game-visual {
+    min-height: 400px;
+    background: #0d110e;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.placeholder h4 {
+    font-family: 'Jersey 10', cursive;
+    font-size: 18px;
+    margin-bottom: 8px;
+    letter-spacing: 0.2px;
+}
+
+.placeholder p {
+    font-size: 14px;
+    max-width: 300px;
+    line-height: 1.5;
+}
+
+/* Game Board */
+.game-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: #111412;
+}
+
+.game-header h4 {
+    font-family: 'Jersey 10', cursive;
+    font-size: 18px;
+    color: white;
+    letter-spacing: 0.2px;
+    margin-bottom: 4px;
+}
+
+.game-header p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.game-board {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.game-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+    gap: 2px;
+}
+
+.row-number {
+    width: 60px;
+    height: 86px;
+    background: #111412;
+    border-right: 1px solid #171a18;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Jersey 10', cursive;
+    font-size: 14px;
+    letter-spacing: 0.125em;
+}
+
+.tiles-container {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.tile {
+    width: 86px;
+    height: 86px;
+    background: #111412;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tile.empty {
+    opacity: 0.3;
+}
+
+.tile.bomb {
+    background: #1a1a1a;
+    color: #666;
+}
+
+/* Game Footer */
+.game-footer {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: #111412;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+
+/* Debug Section */
+.debug-section {
+    margin: 32px;
+    margin-top: 0;
+}
+
+.debug-content {
+    background: #0d110e;
+    padding: 16px;
+    border-radius: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Success/Error Messages */
+.message {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.message.success {
+    background: rgba(88, 239, 80, 0.1);
+    border: 1px solid #58ef50;
+    color: #58ef50;
+}
+
+.message.error {
+    background: rgba(253, 80, 80, 0.1);
+    border: 1px solid #fd5050;
+    color: #fd5050;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .header {
+        padding: 20px;
+    }
+    
+    .title {
+        font-size: 32px;
+    }
+    
+    .main-content {
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .card {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+    
+    .tile {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+    }
+    
+    .row-number {
+        width: 40px;
+        height: 60px;
+        font-size: 12px;
+    }
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bounce-in {
+    animation: bounceIn 0.5s ease-out;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

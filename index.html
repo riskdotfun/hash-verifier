@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk.fun - Hash Verifier</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">HASH VERIFIER</h1>
+            <div id="verification-status" class="verification-status">
+                <!-- Status will be inserted here -->
+            </div>
+            <p class="subtitle">
+                Verify the provable fairness of your Risk.fun game using cryptographic seed verification
+            </p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Column - Input Form -->
+            <div class="input-section">
+                <div class="card">
+                    <h3>GAME VERIFICATION</h3>
+                    <form id="verification-form">
+                        <div class="form-group">
+                            <label for="seedHash">Seed Hash:</label>
+                            <textarea 
+                                id="seedHash" 
+                                placeholder="Enter the seed hash from your game..."
+                                rows="3"
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="seed">Revealed Seed:</label>
+                            <textarea 
+                                id="seed" 
+                                placeholder="Enter the revealed seed..."
+                                rows="3"
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rowConfig">Row Configuration:</label>
+                            <input 
+                                type="text" 
+                                id="rowConfig" 
+                                placeholder="e.g., 6,5,4,3,2"
+                                title="Enter row configuration as comma-separated numbers"
+                            />
+                        </div>
+
+                        <button type="submit" class="verify-button" id="verify-button">
+                            <span class="button-text">Verify Game</span>
+                            <div class="loading-spinner" style="display: none;"></div>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Instructions Card -->
+                <div class="card">
+                    <h3>HOW TO USE</h3>
+                    <div class="instructions">
+                        <ol>
+                            <li>Copy the <strong>Seed Hash</strong> from your game</li>
+                            <li>Copy the <strong>Revealed Seed</strong> (available after game ends)</li>
+                            <li>Enter your <strong>Row Configuration</strong> (e.g., "6,5,4,3,2")</li>
+                            <li>Click <strong>Verify Game</strong> to see results</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Export Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>EXPORT DATA</h3>
+                        <button id="copy-json" class="copy-button" style="display: none;">
+                            <span>📋 Copy JSON</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Game Visual -->
+            <div class="game-section">
+                <div class="card">
+                    <div id="game-visual" class="game-visual">
+                        <div class="placeholder">
+                            <h4>PROVABLY FAIR GAME OUTCOME</h4>
+                            <p>Enter seed hash, revealed seed, and row configuration to verify your game</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Links Card -->
+                <div class="card">
+                    <h3>LINKS</h3>
+                    <div class="links">
+                        <a href="https://github.com/riskdotfun/hash-verifier" target="_blank" class="link">
+                            🔗 View Source Code
+                        </a>
+                        <a href="https://github.com/riskdotfun/hash-verifier/issues" target="_blank" class="link">
+                            🐛 Report Issues
+                        </a>
+                        <a href="https://risk.fun" target="_blank" class="link">
+                            🎲 Play Risk.fun
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Debug Section (Development Only) -->
+        <div id="debug-section" class="debug-section" style="display: none;">
+            <div class="card">
+                <h3>DEBUG INFO</h3>
+                <div id="debug-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/js-sha3@0.8.0/src/sha3.min.js"></script>
+    <script>
+        // Expose keccak256 function globally for compatibility with backend
+        window.keccak256 = sha3.keccak_256;
+    </script>
+    <script src="crypto.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

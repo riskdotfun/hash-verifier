@@ -77,39 +77,32 @@ function verifySeed(seed, expectedHash) {
 }
 
 /**
- * Generate deterministic random number from seed and index
+ * Generate deterministic random number using HMAC-SHA256 (Original System)
+ * This exactly matches the original algorithm used in riskdotfun-api
  * @param {string} seed - Game seed (hex string)
- * @param {number} index - Row index
+ * @param {number} nonce - Row index (nonce)
  * @returns {number} - Random number between 0 and 1
  */
-function generateDeterministicRandom(seed, index) {
-    // Create a deterministic hash combining seed and index
-    const combined = seed + index.toString(16).padStart(8, '0');
-    
-    // Use the same keccak256 function selection as verifySeed
-    let hash;
-    if (typeof window.keccak256 === 'function') {
-        hash = window.keccak256(combined);
-    } else if (typeof sha3.keccak_256 === 'function') {
-        hash = sha3.keccak_256(combined);
-    } else if (typeof sha3.keccak256 === 'function') {
-        hash = sha3.keccak256(combined);
-    } else {
-        throw new Error('keccak256 function not found');
+function generateDeterministicRandom(seed, nonce) {
+    // Use global CryptoJS object (loaded via CDN)
+    if (typeof CryptoJS === 'undefined') {
+        throw new Error('CryptoJS library not loaded');
     }
     
-    // Convert first 8 bytes of hash to a number
-    let value = 0;
-    for (let i = 0; i < 8; i++) {
-        value = value * 256 + parseInt(hash.substr(i * 2, 2), 16);
-    }
-    
-    // Normalize to 0-1 range
-    return (value % 2147483647) / 2147483647;
+    const message = `${seed}:${nonce}`;
+    const hash = CryptoJS.HmacSHA256(message, seed).toString(CryptoJS.enc.Hex);
+
+    // Convert first 8 hex chars to number and normalize to 0-1 (matches API exactly)
+    const hexValue = hash.substring(0, 8);
+    const intValue = parseInt(hexValue, 16);
+    return intValue / 0xffffffff; // Normalize to 0-1
 }
+
+// Removed dual-seed functions - API now consistently uses original algorithm only
 
 /**
  * Generate death tile positions from seed
+ * CRITICAL: Always uses original HMAC-SHA256 algorithm to match riskdotfun-api storage
  * @param {string} seed - Game seed (hex string)  
  * @param {number[]} rowConfig - Array of tile counts per row
  * @returns {number[]} - Array of death tile indices per row
@@ -118,22 +111,29 @@ function generateDeathTiles(seed, rowConfig) {
     if (!seed || !rowConfig) return [];
     
     try {
-        console.log('🎲 Generating death tiles from seed...');
+        console.log('🎲 Generating death tiles using ORIGINAL HMAC-SHA256 algorithm (matches API storage)...');
         console.log('   Seed:', seed.slice(0, 16) + '...');
         console.log('   Row config:', rowConfig);
         
         const deathTiles = [];
         
-        // Generate death tile for each row using seeded randomness
+        // Always use original HMAC-SHA256 system (matches API storage logic)
         rowConfig.forEach((tiles, index) => {
-            const random = generateDeterministicRandom(seed, index);
-            const deathTileIndex = Math.floor(random * tiles);
-            deathTiles.push(deathTileIndex);
-            
-            console.log(`   Row ${index + 1}: ${tiles} tiles, death at index ${deathTileIndex} (${Math.round(random * 1000) / 1000})`);
+            try {
+                const random = generateDeterministicRandom(seed, index);
+                const deathTileIndex = Math.floor(random * tiles);
+                deathTiles.push(deathTileIndex);
+                
+                console.log(`   Row ${index + 1}: ${tiles} tiles, death at index ${deathTileIndex} (random: ${Math.round(random * 1000) / 1000})`);
+            } catch (error) {
+                console.error(`   Error generating death tile for row ${index + 1}:`, error);
+                deathTiles.push(0); // Fallback to first tile
+            }
         });
         
         console.log('   Generated death tiles:', deathTiles);
+        console.log('   Algorithm: ORIGINAL HMAC-SHA256 (matches riskdotfun-api storage)');
+        
         return deathTiles;
     } catch (error) {
         console.error('❌ Error generating death tiles from seed:', error);

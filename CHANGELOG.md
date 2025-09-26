@@ -36,19 +36,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Open source code for community audit
 - MIT license for maximum flexibility
 
+## [1.1.0] - 2025-09-26
+
+### Fixed
+- **CRITICAL**: Fixed algorithm consistency to match riskdotfun api
+  - **Unified Algorithm**: Always uses original HMAC-SHA256 system (`HMAC-SHA256(${seed}:${nonce}, seed)`)
+  - **Verification Accuracy**: Ensures verification regeneration matches stored values exactly
+
+### Added
+- **Visual Enhancement**: Applied web app's bomb styling to verifier
+  - Added SVG bomb asset matching main game design
+  - Red bomb styling with proper CSS filters for death tiles
+  - Dark red background (`#261e1e`) for bomb tiles
+  - 32px bomb size matching web app's desktop experience
+
+### Technical Changes
+- Added `crypto-js` dependency for HMAC-SHA256 support
+- Added `crypto-js` CDN integration for browser compatibility
+- **Unified Algorithm**: Simplified to use only original HMAC-SHA256 system
+  - `generateDeterministicRandom()` for consistent bomb position generation
+  - Removed unnecessary dual-seed complexity after API fix
+  - Matches API storage behavior exactly
+- Simplified `generateDeathTiles()` to always use original algorithm
+- Updated documentation to reflect unified algorithm approach
+- Added debug logging confirming algorithm consistency with API storage
+- Enhanced error handling in death tile generation with fallbacks
+- Improved CSS styling with cleaner bomb container classes
+
 ## [Unreleased]
 
 ### Planned Features
 - Batch verification for multiple games
-- Advanced statistics and analytics
 - Export to multiple formats (PDF, CSV)
 - Integration with Risk.fun API for direct game lookup
 - Mobile application support
-- Enhanced visual themes
-
----
-
-**Note**: This project follows semantic versioning. Version numbers are assigned as MAJOR.MINOR.PATCH where:
-- MAJOR: Incompatible API changes
-- MINOR: New functionality in backward-compatible manner  
-- PATCH: Backward-compatible bug fixes

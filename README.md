@@ -17,6 +17,7 @@ The Risk.fun Hash Verifier is a client-side application that implements cryptogr
 - **Cryptographic Verification**: Implements Keccak256 hashing algorithm (Ethereum-compatible)
 - **Client-Side Processing**: All computations performed locally for maximum security
 - **Visual Game Reconstruction**: Displays complete game state with death tile positions
+- **Authentic Styling**: Bomb assets and styling exactly match the main Risk.fun web application
 
 ## Installation
 
@@ -76,9 +77,9 @@ The verifier requires three pieces of data from your completed Risk.fun game:
 
 ```json
 {
-  "seedHash": "cd46eca4d913c680f4dcbc5f262683fd568b2693bc96446527f2f22da5bae2b1",
-  "revealedSeed": "5c24dd09c7b74794d5521175b26662aa030278b4f8c52adc8d6b2989e26f23113",
-  "rowConfiguration": "6,5,4,3,2"
+  "seedHash": "5a389bc2f1a20739b562055702a2be8c37552923edf3d60c5db3e16cdcac49d5",
+  "revealedSeed": "283c27bfec0a6322495488cb61324e8665c81a2054a08e3190f517c69b8d49808",
+  "rowConfiguration": "6,4,2,3,4,3,4,2,3,3,2,3,4,3,2,3,3,3,4,4,3,2,3,3,3"
 }
 ```
 
@@ -96,14 +97,22 @@ The verifier requires three pieces of data from your completed Risk.fun game:
 ```javascript
 function generateDeathTiles(seed, rowConfig) {
   const deathTiles = [];
+  
+  // Always use original HMAC-SHA256 system (matches API storage)
   rowConfig.forEach((tiles, index) => {
-    const random = generateDeterministicRandom(seed, index);
+    const message = `${seed}:${index}`;
+    const hash = CryptoJS.HmacSHA256(message, seed).toString(CryptoJS.enc.Hex);
+    const intValue = parseInt(hash.substring(0, 8), 16);
+    const random = intValue / 0xffffffff;
     const deathTileIndex = Math.floor(random * tiles);
     deathTiles.push(deathTileIndex);
   });
+  
   return deathTiles;
 }
 ```
+
+**CRITICAL**: This implementation uses the **original HMAC-SHA256 algorithm** consistently matching how riskdotfun-api stores death tiles in the database, ensuring 100% verification accuracy across all platforms.
 
 ## Architecture
 

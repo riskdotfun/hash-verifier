@@ -366,6 +366,7 @@ body {
     position: relative;
     font-size: 24px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
 }
 
 .tile.empty {
@@ -373,8 +374,24 @@ body {
 }
 
 .tile.bomb {
-    background: #1a1a1a;
-    color: #666;
+    background: #111412;
+}
+
+/* Bomb styling to match web app */
+.tile.bomb .bomb-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #261e1e;
+}
+
+.tile.bomb img {
+    width: 32px;
+    height: 32px;
+    /* Red bomb filter (matches web app) */
+    filter: brightness(0) saturate(100%) invert(37%) sepia(93%) saturate(2091%) hue-rotate(336deg) brightness(98%) contrast(102%);
 }
 
 /* Game Footer */

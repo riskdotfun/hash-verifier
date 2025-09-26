@@ -1,6 +1,6 @@
 {
   "name": "@riskdotfun/hash-verifier",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Professional cryptographic verification tool for validating provably fair Risk.fun game outcomes using Keccak256 hashing",
   "main": "index.html",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "keywords": [
     "provably-fair",
-    "cryptographic-verification", 
+    "cryptographic-verification",
     "keccak256",
     "hash-verification",
     "gambling-verification",
@@ -40,6 +40,7 @@
   },
   "type": "commonjs",
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "js-sha3": "^0.9.3"
   },
   "devDependencies": {

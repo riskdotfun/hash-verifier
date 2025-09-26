@@ -130,10 +130,23 @@ async function handleFormSubmit(event) {
  * Get form data
  */
 function getFormData() {
+    const seedHash = elements.seedHashInput?.value.trim() || '';
+    const seed = elements.seedInput?.value.trim() || '';
+    const rowConfigStr = elements.rowConfigInput?.value.trim() || '';
+    const rowConfig = parseRowConfig(rowConfigStr);
+    
+    // DEBUG: Log exact inputs
+    console.log('📋 STANDALONE VERIFIER INPUTS:');
+    console.log('   Seed Hash (first 16):', seedHash.slice(0, 16) + '...');
+    console.log('   Seed (first 16):', seed.slice(0, 16) + '...');
+    console.log('   Row Config String:', rowConfigStr);
+    console.log('   Row Config Array:', rowConfig);
+    console.log('   Row Config Length:', rowConfig.length);
+    
     return {
-        seedHash: elements.seedHashInput?.value.trim() || '',
-        seed: elements.seedInput?.value.trim() || '',
-        rowConfig: parseRowConfig(elements.rowConfigInput?.value.trim() || '')
+        seedHash,
+        seed,
+        rowConfig
     };
 }
 
@@ -142,12 +155,25 @@ function getFormData() {
  */
 async function verifyGame(gameData) {
     console.log('🔍 Starting game verification...');
+    console.log('📊 VERIFICATION INPUTS:');
+    console.log('   Seed (full):', gameData.seed);
+    console.log('   Seed Hash (full):', gameData.seedHash);
+    console.log('   Row Config (full):', gameData.rowConfig);
     
     // Verify seed hash
     const isValid = verifySeed(gameData.seed, gameData.seedHash);
+    console.log('🔐 Seed verification result:', isValid);
     
-    // Generate death tiles
+    // Generate death tiles (always use original algorithm)
     const deathTiles = generateDeathTiles(gameData.seed, gameData.rowConfig);
+    
+    // TEST: Compare with our test script results for debugging
+    if (gameData.seed === '283c27bfec0a6322495488cb61324e8665c81a2054a08e3190f517c69b8d49808') {
+        console.log('🧪 COMPARING WITH TEST SCRIPT RESULTS:');
+        console.log('   Generated bombs:', deathTiles);
+        console.log('   Expected bombs: [1,1,1,0,1,2,2,0,2,2,0,1,3,1,1,1,1,1,3,0,1,1,0,0,1]');
+        console.log('   First 5 match test:', deathTiles.slice(0, 5).join(',') === '1,1,1,0,1' ? '✅' : '❌');
+    }
     
     // Create verification result
     const result = createVerificationResult(gameData, isValid, deathTiles);
@@ -282,7 +308,7 @@ function createGameRow(displayNumber, tileCount, deathTileIndex) {
 }
 
 /**
- * Create a game tile element
+ * Create a game tile element with web app styling
  */
 function createGameTile(tileIndex, deathTileIndex) {
     const tile = document.createElement('div');
@@ -291,10 +317,21 @@ function createGameTile(tileIndex, deathTileIndex) {
     const isDeath = deathTileIndex === tileIndex;
     
     if (isDeath) {
-        // Death tile (bomb)
+        // Death tile (bomb) - match web app styling
         tile.className += ' bomb';
-        tile.innerHTML = '💣';
         tile.title = 'Death tile';
+        
+        // Create bomb container with background (matches web app)
+        const bombContainer = document.createElement('div');
+        bombContainer.className = 'bomb-container';
+        
+        // Create bomb image (matches web app)
+        const bombImage = document.createElement('img');
+        bombImage.src = 'bomb.svg';
+        bombImage.alt = 'Bomb';
+        
+        bombContainer.appendChild(bombImage);
+        tile.appendChild(bombContainer);
     } else {
         // Safe tile
         tile.title = 'Safe tile';
